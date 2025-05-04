@@ -1,4 +1,14 @@
 CREATE DATABASE Wikibook;
+create table usuarios (
+                          id_usuario int unsigned primary key auto_increment,
+                          nombre varchar(60) unique,
+                          contraseña varchar(180),
+                          email varchar (250),
+                          fecha_nacimiento date,
+                          rol varchar(30) default 'user',
+                          activo boolean default true
+);
+
 CREATE TABLE libros (
                         id_libro int auto_increment primary key,
                         titulo varchar(250) unique,
