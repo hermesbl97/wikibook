@@ -115,6 +115,29 @@
 
 <%@include file="includes/header.jsp"%>
 
+<script type="text/javascript">
+    $(document).ready(function() {          //quiere decir
+        $("form").on("submit", function(event) {  //cuando proceses el formulario, el botón de tipo submit
+            event.preventDefault();
+            const formValue = $(this).serialize();
+            $.ajax("login", {     //vete al login
+                type: "POST",       //envía everything a través de post
+                data: formValue,
+                statusCode: {
+                    200: function(response) {
+                        if (response === "OK") {
+                            window.location.href = "/wikibook";   //si everything va bien ve a la página de wikibook
+                        } else {
+                            $("#result").html("<div class='alert alert-danger' role='alert'>"+ response +"</div>");    //sino tirame en la capa result lo que te tire el servlet
+                        }
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+
 <main class="form-signin w-100 m-auto">
     <div class="container d-flex justify-content-center">
         <form>
@@ -122,15 +145,16 @@
             <h3 class="h3 mb-3 fw-normal">Regístrate</h3>
 
             <div class="form-floating">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <input type="text" class="form-control" id="floatingInput" name="username">
                 <label for="floatingInput">Nombre de usuario</label>
             </div>
             <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <input type="password" class="form-control" id="floatingPassword" name="password">
                 <label for="floatingPassword">Contraseña</label>
             </div>
 
-            <button class="btn btn-warning w-100 py-2" type="submit">Iniciar sesión</button>
+            <input class="btn btn-warning w-100 py-2" type="submit" value="Iniciar sesión">
+            <div id="result"></div>
         </form>
     </div>
 </main>

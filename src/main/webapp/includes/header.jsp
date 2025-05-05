@@ -21,6 +21,8 @@
     <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <meta name="theme-color" content="#712cf9">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!--añadimos librería ajax-->
+
 
     <style>
 
@@ -68,6 +70,14 @@
             <a href="/wikibook" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                 <h3><i class="bi bi-book"> WikiBook</i></h3>
             </a>
+            <%
+                HttpSession currentSession = request.getSession();
+                String rol = "anonymous";
+                if (currentSession.getAttribute("rol") != null) { //si la sesión es distinto de nulo entonces el atributo rol existe significa que hay una sesión
+                    rol = currentSession.getAttribute("rol").toString(); //es un objeto pero lo tenemos que declarar como String
+                }
+            %>
+
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="/wikibook" class="nav-link px-2 text-secondary">Home</a></li>
@@ -83,7 +93,17 @@
 
             <div class="text-end">
                 <button type="button" class="btn btn-outline-light me-2">Regístrate</button>
+                <%
+                    if (rol.equals("anonymous")) {
+                %>
                 <a type="button" class="btn btn-warning" href="login.jsp">Iniciar sesión</a>
+                <%
+                    } else {
+                %>
+                <a type="button" class="btn btn-danger" href="/wikibook/logout">Cerrar sesión</a>
+                <%
+                    }
+                %>
             </div>
         </div>
     </div>
