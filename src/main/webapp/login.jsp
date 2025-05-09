@@ -144,17 +144,21 @@
             <h1><i class="bi bi-book"> WikiBook</i></h1>
             <h3 class="h3 mb-3 fw-normal">Regístrate</h3>
 
-            <div class="form-floating">
+            <div class="form-floating mb-2" >
                 <input type="text" class="form-control" id="floatingInput" name="username">
                 <label for="floatingInput">Nombre de usuario</label>
             </div>
-            <div class="form-floating">
+            <div class="form-floating mb-2">
                 <input type="password" class="form-control" id="floatingPassword" name="password">
                 <label for="floatingPassword">Contraseña</label>
             </div>
-
-            <input class="btn btn-warning w-100 py-2" type="submit" value="Iniciar sesión">
-            <div id="result"></div>
+            <div class="mb-2">
+                <input class="btn btn-warning w-100 py-2" type="submit" value="Iniciar sesión">
+            </div>
+            <div class="mb-2">
+                ¿No tienes una cuenta? <a href="register.jsp" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Regístrate</a></p>
+            </div>
+            <div class="mb-2" id="result"></div>
         </form>
     </div>
 </main>

@@ -18,16 +18,29 @@
         <div class="card mb-3" style="max-width: 700px;">
             <div class="row g-0">
                 <div class="col-md-4">
-                    <img src="..." class="img-fluid rounded-start" alt="...">
+                    <img src="../wikibook_images/<%= libro.getImagen()%>" class="img-fluid rounded-start" alt="..."> <!-- Carpeta anterior y luego vamos a la de Wikibook images -->
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title"><%= libro.getTitulo()%> (Autor: <%= libro.getAutor()%>)</h5>
+                        <h5 class="card-title"><%= libro.getTitulo()%></h5>
+                        <p class="card-text">Autor: <%= libro.getAutor()%></p>
                         <p class="card-text">Género: <%= libro.getGenero()%></p>
                         <p class="card-text">Editorial: <%= libro.getEditorial()%></p>
                         <p class="card-text"><small class="text-body-secondary">Publicado el <%= libro.getFecha_publicacion()%></small></p>
                         <p class="card-text"><small class="text-body-secondary">Disponible a partir de <%= libro.getPrecio()%>€ </small></p>
-                        <button type="button" class="btn btn-outline-warning">Valorar</button>
+                        <%
+                            if (rol.equals("user")) {
+
+                        %>
+                        <a href="valorar_libro.jsp?id_liro=<%= libro.getId_libro()%>" type="button" class="btn btn-outline-warning">Valorar</a>
+                        <%
+                            } else if (rol.equals("admin")) {
+                        %>
+                            <a href="edit_libro.jsp?id_liro=<%= libro.getId_libro()%>" type="button" class="btn btn-outline-info">Editar</a>
+                            <a href="delete_libro.jsp?id_liro=<%= libro.getId_libro()%>" type="button" class="btn btn-outline-danger">Eliminar</a>
+                        <%
+                            }
+                        %>
                     </div>
                 </div>
             </div>

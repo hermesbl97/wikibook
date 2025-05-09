@@ -19,6 +19,9 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException { //procesare la info que le mandemos desde el formulario login
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+
         String nombre = request.getParameter("username"); //recogemos a través del request los datos del formulario. Asociamos tanto username como password a los valores que nos introducen en el formulario
         String contraseña = request.getParameter("password");
 
