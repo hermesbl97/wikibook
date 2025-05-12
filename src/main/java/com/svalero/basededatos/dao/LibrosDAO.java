@@ -51,6 +51,7 @@
             return launchQuery(sql, search);
         }
 
+
         private ArrayList<Libro> launchQuery(String query, String ...search) throws SQLException { //Con los puntos suspensivos le decimos que al pasar el métdo acepte un parámetro o más. El query es obligatorio pero luego le podemos pasar tantos parámetro como queramos
             PreparedStatement statement = null;
             ResultSet result= null;

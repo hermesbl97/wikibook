@@ -30,7 +30,9 @@
                 Database database = new Database();
                 database.connect();
                 LibrosDAO librosDAO = new LibrosDAO(database.getConnection());
-                List<Libro> libroList = librosDAO.getAll();
+
+                String search = request.getParameter("search");
+                List<Libro> libroList = librosDAO.getAll(search);
                 for (Libro libro: libroList){
             %>
             <li class="list-group-item d-flex justify-content-between align-items-start">
