@@ -2,4 +2,9 @@
 
 <web-app>
     <display-name>Wikibook app</display-name>
+    <context-param>
+        <description>Ruta para almacenar las imagenes de los juegos</description>
+        <param-name>imagePath</param-name>
+        <param-value>/Users/Hermes/Downloads/apache-tomcat-9.0.102/webapps/wikibook_images</param-value>  <!-- Guardamos en una ruta del tomcat. Ya no guardamos la imagen dentro del proyecto peros í que lo necesitamos en el entorno de la web -->
+    </context-param>
 </web-app>
