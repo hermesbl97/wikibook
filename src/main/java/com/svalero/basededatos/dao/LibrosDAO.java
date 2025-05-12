@@ -128,7 +128,7 @@
             int affectedRows = statement.executeUpdate();
             return affectedRows != 0;
         }
-        public boolean delete (int libroId) throws SQLException { //en vez de pasarle sólo el id se podría hacer pasando el juego entero
+        public boolean delete (int libroId) throws SQLException { //en vez de pasarle sólo el id se podría hacer pasando el libro entero
             String sql = "DELETE FROM libros WHERE id_libro = ? ";
 
             PreparedStatement statement = connection.prepareStatement(sql);

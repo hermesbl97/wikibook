@@ -2,11 +2,17 @@
 
 <%@include file="includes/header.jsp"%>
 
+<%
+    if ((currentSession.getAttribute("rol") == null) || (currentSession.getAttribute("rol").equals("admin"))) {
+        response.sendRedirect("/wikibook/login.jsp");
+    }
+%>
+
 <script type="text/javascript">
     $(document).ready(function() {          //quiere decir
-        $("form.ajax").on("submit", function(event) {  //cuando proceses el formulario, el botón de tipo submit
+        $("form").on("submit", function(event) {  //cuando proceses el formulario, el botón de tipo submit
             event.preventDefault();
-            const form = this;
+            const form = $("form")[0];
             const formValue = new FormData(form);
             $.ajax("nuevo_libro", {     //vete al login
                 type: "POST",       //envía everything a través de post
@@ -34,7 +40,7 @@
 
 <div class="album py-5 bg-body-territory">
     <div class="container d-flex justify-content-center">
-        <form id="form-nuevo-libro" class="ajax">
+        <form id="form-nuevo-libro">
         <div class="input-group mb-2">
                 <input type="text" id="titulo" name="titulo" placeholder="Harry Potter"  class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
             </div>

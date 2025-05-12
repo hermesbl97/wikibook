@@ -34,10 +34,17 @@ public class NuevoLibroServlet extends HttpServlet {
         }
 
         String titulo = request.getParameter("titulo"); //recogemos a través del request los datos del formulario. Asociamos tanto username como password a los valores que nos introducen en el formulario
+        if (titulo.isEmpty()){
+            response.getWriter().println("El título es un campo obligatorio");
+        }
         String autor = request.getParameter("autor");
         String fecha_publicacion = request.getParameter("fecha_publicacion");
         Part imagen = request.getPart("imagen");
         String precio = request.getParameter("precio");
+        if (!precio.matches("[0-9]*")) {
+            response.getWriter().println("El precio debe ser un valor numérico");
+            return;
+        }
         String genero = request.getParameter("genero");
         String editorial = request.getParameter("editorial");
 
@@ -53,13 +60,14 @@ public class NuevoLibroServlet extends HttpServlet {
 
             //Procesa la imagen del juego
             String filename = "default.jpg";
-            if (imagen.getSize() !=0) {
+            if (imagen.getSize() != 0) {
                 filename = UUID.randomUUID() + ".jpg"; //con esto creamos un nombre de imagen aleatorio porque si dos personas suben una foto con un mismo nombre se sobreescribirían o chocarían entre ellas
+                //String imagePath = getServletContext().getAttribute("imagePath").toString();
+                String imagePath = "C:\\Users\\Hermes\\Downloads\\apache-tomcat-9.0.102\\apache-tomcat-9.0.102\\webapps\\wikibook_images";
+                InputStream inputStream = imagen.getInputStream(); //representación de la foto en datos
+                Files.copy(inputStream, Path.of(imagePath + File.separator + filename)); //copiame el InputStream (la foto) a la ruta de la carpeta (imagePath), seguido de la barra separadora, y del nombre del fichero generado aleatoriamente
+
             }
-            //String imagePath = getServletContext().getAttribute("imagePath").toString();
-            String imagePath = "C:\\Users\\Hermes\\Downloads\\apache-tomcat-9.0.102\\apache-tomcat-9.0.102\\webapps\\wikibook_images";
-            InputStream inputStream = imagen.getInputStream(); //representación de la foto en datos
-            Files.copy(inputStream, Path.of(imagePath + File.separator + filename)); //copiame el InputStream (la foto) a la ruta de la carpeta (imagePath), seguido de la barra separadora, y del nombre del fichero generado aleatoriamente
 
             libro.setImagen(filename);
             libro.setPrecio(Float.parseFloat(precio));
