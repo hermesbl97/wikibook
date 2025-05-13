@@ -1,9 +1,7 @@
 package com.svalero.basededatos.servlet;
 
 import com.svalero.basededatos.dao.LibrosDAO;
-import com.svalero.basededatos.dao.UsuarioDAO;
 import com.svalero.basededatos.database.Database;
-import com.svalero.basededatos.exception.UserNotFoundException;
 import com.svalero.basededatos.model.Libro;
 
 import javax.servlet.ServletException;
@@ -19,9 +17,9 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.UUID;
 
-@WebServlet("/nuevo_libro") //URL a la que se asocia el servlet
+@WebServlet("/editar_libro") //URL a la que se asocia el servlet
 @MultipartConfig //Al servet hay que decirle que esté preparado para recibir cosas binarias
-public class NuevoLibroServlet extends HttpServlet {
+public class EditarLibroServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { //procesare la info que le mandemos desde el formulario login
@@ -30,8 +28,10 @@ public class NuevoLibroServlet extends HttpServlet {
 
         HttpSession currentSession = request.getSession();
         if ((currentSession.getAttribute("rol") == null) || (!currentSession.getAttribute("rol").equals("admin"))) {
-            response.sendRedirect("/wikibook");
+            response.sendRedirect("/wikibook/login.jsp");
         }
+
+        String action = request.getParameter("action");
 
         String titulo = request.getParameter("titulo"); //recogemos a través del request los datos del formulario. Asociamos tanto username como password a los valores que nos introducen en el formulario
         if (titulo.isEmpty()){
@@ -59,26 +59,35 @@ public class NuevoLibroServlet extends HttpServlet {
             libro.setFecha_publicacion(new Date(System.currentTimeMillis()));
 
             //Procesa la imagen del juego
-            String filename = "default.jpg";
-            if (imagen.getSize() != 0) {
-                filename = UUID.randomUUID() + ".jpg"; //con esto creamos un nombre de imagen aleatorio porque si dos personas suben una foto con un mismo nombre se sobreescribirían o chocarían entre ellas
-                //String imagePath = getServletContext().getAttribute("imagePath").toString();
-                String imagePath = "C:\\Users\\Hermes\\Downloads\\apache-tomcat-9.0.102\\apache-tomcat-9.0.102\\webapps\\wikibook_images";
-                InputStream inputStream = imagen.getInputStream(); //representación de la foto en datos
-                Files.copy(inputStream, Path.of(imagePath + File.separator + filename)); //copiame el InputStream (la foto) a la ruta de la carpeta (imagePath), seguido de la barra separadora, y del nombre del fichero generado aleatoriamente
-
+            if (action.equals("Registrar")) {
+                String filename = "default.jpg";
+                if (imagen.getSize() != 0) {
+                    filename = UUID.randomUUID() + ".jpg"; //con esto creamos un nombre de imagen aleatorio porque si dos personas suben una foto con un mismo nombre se sobreescribirían o chocarían entre ellas
+                    //String imagePath = getServletContext().getAttribute("imagePath").toString();
+                    String imagePath = "C:\\Users\\Hermes\\Downloads\\apache-tomcat-9.0.102\\apache-tomcat-9.0.102\\webapps\\wikibook_images";
+                    InputStream inputStream = imagen.getInputStream(); //representación de la foto en datos
+                    Files.copy(inputStream, Path.of(imagePath + File.separator + filename)); //copiame el InputStream (la foto) a la ruta de la carpeta (imagePath), seguido de la barra separadora, y del nombre del fichero generado aleatoriamente
+                }
+                libro.setImagen(filename);
+            } else {
+                libro.setId_libro(Integer.parseInt(request.getParameter("libroId")));
             }
 
-            libro.setImagen(filename);
             libro.setPrecio(Float.parseFloat(precio));
             libro.setGenero(genero);
             libro.setEditorial(editorial);
-            boolean anadido = librosDAO.add(libro);
 
-            if (anadido) {
+            boolean done = false;
+            if (action.equals("Registrar")) {
+                done = librosDAO.add(libro);
+            } else {
+                done = librosDAO.modify(libro);
+            }
+
+            if (done) {
                 response.getWriter().println("OK");
             } else {
-                response.getWriter().println("Error al registrar libro");
+                response.getWriter().println("Error al enviar el libro");
             }
             
         } catch (SQLException sqle) {
@@ -92,9 +101,7 @@ public class NuevoLibroServlet extends HttpServlet {
             cnfe.printStackTrace();
         } catch (IOException ioe) {
             ioe.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+        }
     }
-}
 
 }

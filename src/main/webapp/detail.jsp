@@ -9,12 +9,12 @@
 <%@include file="includes/header.jsp"%>
 
 <%
-    int IdLibro = Integer.parseInt(request.getParameter("id_libro"));
+    int libroId = Integer.parseInt(request.getParameter("id_libro"));
     Database database = new Database();
     database.connect();
     LibrosDAO librosDAO = new LibrosDAO(database.getConnection());
     try {
-        Libro libro = librosDAO.get(IdLibro);
+        Libro libro = librosDAO.get(libroId);
 %>
     <div class="container d-flex justify-content-center">
         <div class="card mb-3" style="max-width: 700px;">
@@ -29,16 +29,15 @@
                         <p class="card-text">Género: <%= libro.getGenero()%></p>
                         <p class="card-text">Editorial: <%= libro.getEditorial()%></p>
                         <p class="card-text"><small class="text-body-secondary">Publicado el <%= DateUtils.format(libro.getFecha_publicacion())%></small></p>
-                        <p class="card-text"><small class="text-body-secondary">Disponible a partir de <%= CurrencyUtils.format(libro.getPrecio())%>€ </small></p>
+                        <p class="card-text"><small class="text-body-secondary">Disponible a partir de <%= CurrencyUtils.format(libro.getPrecio())%> </small></p>
                         <%
                             if (rol.equals("user")) {
-
                         %>
                         <a href="valorar_libro.jsp?id_liro=<%= libro.getId_libro()%>" type="button" class="btn btn-outline-warning">Valorar</a>
                         <%
                             } else if (rol.equals("admin")) {
                         %>
-                            <a href="edit_libro.jsp?id_libro=<%= libro.getId_libro()%>" type="button" class="btn btn-outline-info">Editar</a>
+                            <a href="editar_libro.jsp?id_libro=<%= libro.getId_libro()%>" type="button" class="btn btn-outline-info">Editar</a>
                             <a href="delete_libro?id_libro=<%= libro.getId_libro()%>" type="button"
                                onclick="return confirm('¿Estás seguro de querer eliminar el juego?')"
                                class="btn btn-outline-danger">Eliminar</a>

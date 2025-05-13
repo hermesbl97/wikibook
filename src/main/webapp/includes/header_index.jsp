@@ -88,6 +88,10 @@
                 <li><a href="#" class="nav-link px-2 text-white">About</a></li>
             </ul>
 
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="get" action="<%= request.getRequestURI()%>">
+                <input type="text" class="form-control form-control-dark text-bg-dark" placeholder="Search..." name="search" id="search"
+                value="<%= search != null ? search : ""%>">
+            </form>
 
             <div class="text-end">
                 <button type="button" class="btn btn-outline-light me-2">Regístrate</button>
