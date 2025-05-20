@@ -13,20 +13,15 @@ public class ResenaDAO {
         this.connection = connection;
     }
 
-    public boolean add(Resena resena) throws SQLException {
-        String sql = "INSERT INTO resenas (puntuacion,opinion, id_libro, id_usuario)" +
-                " VALUES (?,?,?,?)";
-        PreparedStatement statement = null;
-
-        statement = connection.prepareStatement(sql);
+    public void add(Resena resena) throws SQLException {
+        String sql = "INSERT INTO resenas (puntuacion, opinion, id_libro, id_usuario) VALUES (?, ?, ?, ?)";
+        PreparedStatement statement = connection.prepareStatement(sql);
         statement.setFloat(1, resena.getPuntuacion());
         statement.setString(2, resena.getOpinion());
         statement.setInt(3, resena.getId_libro());
         statement.setInt(4, resena.getId_usuario());
 
-
-        int affectedRows = statement.executeUpdate(); // al convertirlo en un numero, buscamos que nos devuelva el numero de filas afectadas al borrar por ejemplo
-
-        return affectedRows != 0;
+        statement.executeUpdate();
     }
+
 }

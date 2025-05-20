@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class Resena {
 
-    private int id_reseña;
+    private int id_resena;
     private float puntuacion;
     private boolean apropiada;
     private String opinion;

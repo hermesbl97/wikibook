@@ -2,6 +2,12 @@
 
 <%@include file="includes/header.jsp"%>
 
+<%
+    if ((currentSession.getAttribute("rol") == null) || (!currentSession.getAttribute("rol").equals("admin")) ){
+        response.sendRedirect("/wikibook/login.jsp");
+    }
+%>
+
 <script type="text/javascript">
     $(document).ready(function() {
         $("form").on("submit", function(event) {

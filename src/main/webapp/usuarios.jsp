@@ -19,6 +19,7 @@
             <th scope="col">Email</th>
             <th scope="col">Rol</th>
             <th scope="col">Activo</th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -37,6 +38,8 @@
             <td><%= usuario.getEmail()%></td>
             <td><%= usuario.getRol()%></td>
             <td><%= usuario.isActivo()%></td>
+            <td><a href="editar_usuario.jsp?user_id=<%=usuario.getId_usuario()%>" class="btn btn-sm btn-outline-primary btn-custom">
+                <i class="fa-solid fa-user-pen"></i></td>
         </tr>
         <%
             }

@@ -16,18 +16,27 @@ public class UsuarioDAO {
         this.connection = connection;
     }
 
-    public String loginUsuario(String nombre, String contraseña) throws SQLException, UserNotFoundException {
-        String sql = "SELECT rol FROM usuarios WHERE nombre = ? AND contraseña = SHA1(?)";
+    public Usuario loginUsuario(String nombre, String contraseña) throws SQLException, UserNotFoundException {
+        String sql = "SELECT id_usuario, nombre, contraseña, email, rol, activo FROM usuarios WHERE nombre = ? AND contraseña = SHA1(?)";
 
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, nombre);
         statement.setString(2,contraseña);
         ResultSet result = statement.executeQuery();
+
         if (!result.next()) { //Si la consulta no devuelve nada. Devolverá false
             throw new UserNotFoundException();
         }  //si no encuentra al usuario lanzamos una exception así conseguimos lanzar en una misma función un booleano y un string si es cierto
 
-        return result.getString("rol");
+        Usuario usuario = new Usuario();
+        usuario.setId_usuario(result.getInt("id_usuario"));
+        usuario.setNombre(result.getString("nombre"));
+        usuario.setContraseña(result.getString("contraseña"));
+        usuario.setEmail(result.getString("email"));
+        usuario.setRol(result.getString("rol"));
+        usuario.setActivo(result.getBoolean("activo"));
+
+        return usuario;
     }
 
 
@@ -92,6 +101,31 @@ public class UsuarioDAO {
         int affectedRows = statement.executeUpdate();
 
         return affectedRows != 0;
+    }
+
+    public Usuario getUsuario (int id_usuario) throws SQLException, UserNotFoundException {
+        String sql = "SELECT * FROM usuarios WHERE id_usuario = ?";
+        PreparedStatement statement = null;
+        ResultSet result = null;
+
+        statement = connection.prepareStatement(sql);
+        statement.setInt(1, id_usuario);
+        result = statement.executeQuery();
+
+        if (!result.next()){
+            throw new UserNotFoundException();
+        }
+        Usuario usuario = new Usuario();
+        usuario.setId_usuario(result.getInt("id_usuario"));
+        usuario.setNombre(result.getString("nombre"));
+        usuario.setContraseña(result.getString("contraseña"));
+        usuario.setEmail(result.getString("email"));
+        usuario.setFecha_nacimiento(result.getDate("fecha_nacimiento"));
+        usuario.setRol(result.getString("rol"));
+        usuario.setActivo(result.getBoolean("activo"));
+        statement.close();
+
+        return usuario;
     }
 
 }
