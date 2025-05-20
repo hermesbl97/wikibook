@@ -1,6 +1,7 @@
 package com.svalero.basededatos.dao;
 
 import com.svalero.basededatos.exception.UserNotFoundException;
+import com.svalero.basededatos.model.Usuario;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,7 +16,7 @@ public class UsuarioDAO {
     }
 
     public String loginUsuario(String nombre, String contraseña) throws SQLException, UserNotFoundException {
-        String sql = "SELECT rol FROM usuarios WHERE nombre = ? AND contraseña = SHA1(?)";
+        String sql = "SELECT rol FROM usuarios WHERE nombre = ? AND contraseña = ?";
 
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, nombre);
@@ -27,4 +28,23 @@ public class UsuarioDAO {
 
         return result.getString("rol");
     }
+
+    //Añadimos un usuario
+    public boolean añadirUsuario (Usuario usuario) throws SQLException {
+        String sql = "INSERT INTO usuarios (nombre, contraseña, email, fecha_nacimiento, rol, activo) VALUES (?,?,?,?,?,?)";
+        PreparedStatement statement = null;
+
+        statement = connection.prepareStatement(sql);
+        statement.setString(1, usuario.getNombre());
+        statement.setString(2, usuario.getContraseña());
+        statement.setString(3, usuario.getEmail());
+        statement.setDate(4, usuario.getFecha_nacimiento());
+        statement.setString(5, usuario.getRol());
+        statement.setBoolean(6,usuario.isActivo());
+
+        int affectedRows = statement.executeUpdate();
+
+        return affectedRows != 0;
+    }
+
 }

@@ -33,7 +33,7 @@
                         <%
                             if (rol.equals("user")) {
                         %>
-                        <a href="valorar_libro.jsp?id_liro=<%= libro.getId_libro()%>" type="button" class="btn btn-outline-warning">Valorar</a>
+                        <a href="valorar_libro.jsp?id_libro=<%= libro.getId_libro()%>" type="button" class="btn btn-outline-warning">Valorar</a>
                         <%
                             } else if (rol.equals("admin")) {
                         %>
@@ -49,6 +49,7 @@
             </div>
         </div>
     </div>
+
 <%
     } catch (LibroNotFoundException lnfe) {
 %>

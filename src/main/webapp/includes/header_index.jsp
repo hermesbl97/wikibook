@@ -94,7 +94,7 @@
             </form>
 
             <div class="text-end">
-                <button type="button" class="btn btn-outline-light me-2">Regístrate</button>
+                <a type="button" class="btn btn-outline-light me-2" href="/wikibook/registro_usuarios.jsp">Regístrate</a>
                 <%
                     if (rol.equals("anonymous")) {
                 %>

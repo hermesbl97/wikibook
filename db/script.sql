@@ -19,3 +19,14 @@ CREATE TABLE libros (
                         genero varchar (80),
                         editorial varchar (80),
 );
+
+CREATE TABLE resenas (
+                         id_resena INT AUTO_INCREMENT PRIMARY KEY,
+                         puntuacion FLOAT,
+                         opinion VARCHAR(500),
+                         apropiada BOOLEAN DEFAULT TRUE,
+                         id_usuario INT UNSIGNED,
+                         id_libro INT,
+                         CONSTRAINT fk_id_usuario_resenas FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+                         CONSTRAINT fk_id_libro_resenas FOREIGN KEY (id_libro) REFERENCES libros(id_libro)
+);
