@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class UsuarioDAO {
     private Connection connection;
@@ -16,7 +17,7 @@ public class UsuarioDAO {
     }
 
     public String loginUsuario(String nombre, String contraseña) throws SQLException, UserNotFoundException {
-        String sql = "SELECT rol FROM usuarios WHERE nombre = ? AND contraseña = ?";
+        String sql = "SELECT rol FROM usuarios WHERE nombre = ? AND contraseña = SHA1(?)";
 
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, nombre);
@@ -29,9 +30,55 @@ public class UsuarioDAO {
         return result.getString("rol");
     }
 
+
+    //Mostramos todos los usuarios sin campo de busqueda
+    public ArrayList<Usuario> getUsuarios() throws SQLException, UserNotFoundException{
+        String sql = "SELECT * FROM usuarios";
+        return launchQuery(sql);
+    }
+
+    //Mostramos todos los usuarios teniendo en cuenta el campo de busqueda
+    public ArrayList<Usuario> getUsuarios(String search) throws SQLException, UserNotFoundException {
+        String sql = "SELECT * FROM usuarios WHERE nombre LIKE ? OR rol LIKE ? OR email LIKE ?";
+        if (search == null || search.isEmpty()) {
+            return getUsuarios();
+        }
+        return launchQuery(sql, search);
+    }
+
+    //Mostramos todos los usuarios
+    private ArrayList<Usuario> launchQuery(String sql, String ...search) throws SQLException {
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        statement = connection.prepareStatement(sql);
+        if (search.length > 0) {
+            statement.setString(1, "%" + search[0] + "%");
+            statement.setString(2, "%" + search[0] + "%");
+            statement.setString(3, "%" + search[0] + "%");
+        }
+        result = statement.executeQuery();
+
+        ArrayList<Usuario> usuarioList = new ArrayList<>();
+
+        while (result.next()) {
+            Usuario usuario = new Usuario();
+            usuario.setId_usuario(result.getInt("id_usuario"));
+            usuario.setNombre(result.getString("nombre"));
+            usuario.setContraseña(result.getString("contraseña"));
+            usuario.setFecha_nacimiento(result.getDate("fecha_nacimiento"));
+            usuario.setEmail(result.getString("email"));
+            usuario.setActivo(result.getBoolean("activo"));
+            usuarioList.add(usuario);
+        }
+        statement.close();
+
+        return usuarioList;
+    }
+
+
     //Añadimos un usuario
     public boolean añadirUsuario (Usuario usuario) throws SQLException {
-        String sql = "INSERT INTO usuarios (nombre, contraseña, email, fecha_nacimiento, rol, activo) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO usuarios (nombre, contraseña, email, fecha_nacimiento, rol, activo) VALUES (?,SHA1(?),?,?,?,?)";
         PreparedStatement statement = null;
 
         statement = connection.prepareStatement(sql);
