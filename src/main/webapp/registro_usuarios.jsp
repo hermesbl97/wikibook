@@ -2,12 +2,6 @@
 
 <%@include file="includes/header.jsp"%>
 
-<%
-    if ((currentSession.getAttribute("rol") == null) || (!currentSession.getAttribute("rol").equals("admin")) ){
-        response.sendRedirect("/wikibook/login.jsp");
-    }
-%>
-
 <script type="text/javascript">
     $(document).ready(function() {
         $("form").on("submit", function(event) {
@@ -63,16 +57,6 @@
                 <span class="input-group-text">Fecha de nacimiento</span>
                 <input type="date" id="fecha_nacimiento" name="fecha_nacimiento"  class="form-control">
             </div>
-
-<%--             Por defecto tienen un rol usuario pero si que se puede pretender que a la hora de editar si eres admin puedas cambiar el rol --%>
-<%--            <div class="input-group mb-2">--%>
-<%--                <span class="input-group-text">Rol</span>--%>
-<%--                <select id="rol" name="rol" class="form-select">--%>
-<%--                    <option value="">Usuario</option>--%>
-<%--                    <option value="user">Usuario</option>--%>
-<%--                    <option value="admin">Administrador</option>--%>
-<%--                    </select>        --%>
-<%--            </div>--%>
 
             <div>
                 <input class="btn btn-primary" type="submit" value="Registrar" name="submit">

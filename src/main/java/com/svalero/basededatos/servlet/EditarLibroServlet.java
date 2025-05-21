@@ -58,7 +58,7 @@ public class EditarLibroServlet extends HttpServlet {
             libro.setAutor(autor);
             libro.setFecha_publicacion(new Date(System.currentTimeMillis()));
 
-            //Procesa la imagen del juego
+            //Procesa la imagen del libro
             String filename = "default.jpg";
             if (action.equals("Registrar")) {
                 if (imagen.getSize() != 0) {

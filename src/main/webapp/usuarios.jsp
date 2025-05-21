@@ -20,6 +20,7 @@
             <th scope="col">Rol</th>
             <th scope="col">Activo</th>
             <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -37,9 +38,12 @@
             <td><%= usuario.getNombre()%></td>
             <td><%= usuario.getEmail()%></td>
             <td><%= usuario.getRol()%></td>
-            <td><%= usuario.isActivo()%></td>
-            <td><a href="editar_usuario.jsp?user_id=<%=usuario.getId_usuario()%>" class="btn btn-sm btn-outline-primary btn-custom">
+            <td><%= usuario.isActivo() ? "Activo" : "Bloqueado"%></td>
+            <td><a href="editar_usuario_admin.jsp?id_usuario=<%=usuario.getId_usuario()%>" class="btn btn-sm btn-outline-primary btn-custom">
                 <i class="fa-solid fa-user-pen"></i></td>
+            <td><a href="delete_usuario?id_usuario=<%=usuario.getId_usuario()%>" class="btn btn-sm btn-outline-danger btn-custom"
+                   onclick="return confirm('¿Estás seguro de querer eliminar el libro?')">
+                <i class="fa-solid fa-user-xmark"></i></td>
         </tr>
         <%
             }

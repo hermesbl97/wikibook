@@ -32,7 +32,7 @@ public class EliminarLibroServlet extends HttpServlet {
             Database database = new Database();
             database.connect();
             LibrosDAO librosDAO = new LibrosDAO(database.getConnection());
-            librosDAO.delete(Integer.parseInt(libroId)); //borramos juego por id
+            librosDAO.delete(Integer.parseInt(libroId)); //borramos libro por id
 
             response.sendRedirect("/wikibook"); //después del borrado lo redirigimos a la página principal
         } catch (SQLException sqle) {

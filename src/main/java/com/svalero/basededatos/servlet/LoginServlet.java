@@ -36,7 +36,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession(); //creamos una sesión
             session.setAttribute("username", usuario.getNombre());
             session.setAttribute("rol", usuario.getRol());
-            session.setAttribute("id", usuario.getId_usuario());
+            session.setAttribute("id_usuario", usuario.getId_usuario());
             session.setAttribute("usuario", usuario);
 
             response.getWriter().print("OK");

@@ -59,8 +59,13 @@
               <input type="hidden" name="id_libro" value="<%= libroId %>" >
 
               <div class="mb-3">
-                <h5 class="card-title">Puntuación (0-5)</h5>
+                <h5 class="card-title">Puntuación</h5>
                   <input type="number" name="puntuacion" id="puntuacion" min="0" max="5" step="0.1" required>
+                  <div class="col-auto">
+                      <span id="passwordHelpInline" class="form-text">
+                          La puntuación debe ser entre 0-5 puntos.
+                      </span>
+                  </div>
               </div>
 
               <div class="mb-3">

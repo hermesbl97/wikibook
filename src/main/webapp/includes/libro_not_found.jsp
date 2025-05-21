@@ -1,1 +1,1 @@
-<h2>Book wasn't found</h2>
+<h2>El libro no se ha podido encontrar</h2>

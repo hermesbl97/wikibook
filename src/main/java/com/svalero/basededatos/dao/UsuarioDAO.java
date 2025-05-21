@@ -76,6 +76,7 @@ public class UsuarioDAO {
             usuario.setContraseña(result.getString("contraseña"));
             usuario.setFecha_nacimiento(result.getDate("fecha_nacimiento"));
             usuario.setEmail(result.getString("email"));
+            usuario.setRol(result.getString("rol"));
             usuario.setActivo(result.getBoolean("activo"));
             usuarioList.add(usuario);
         }
@@ -97,6 +98,36 @@ public class UsuarioDAO {
         statement.setDate(4, usuario.getFecha_nacimiento());
         statement.setString(5, usuario.getRol());
         statement.setBoolean(6,usuario.isActivo());
+
+        int affectedRows = statement.executeUpdate();
+
+        return affectedRows != 0;
+    }
+
+    public boolean editarUsuarioAdmin (Usuario usuario) throws SQLException {
+        String sql = "UPDATE usuarios SET rol = ?, activo = ? WHERE id_usuario = ?";
+        PreparedStatement statement = null;
+        statement = connection.prepareStatement(sql);
+
+        statement.setString(1, usuario.getRol());
+        statement.setBoolean(2, usuario.isActivo());
+        statement.setInt(3, usuario.getId_usuario());
+
+        int affectedRows = statement.executeUpdate();
+
+        return affectedRows != 0;
+    }
+
+    public boolean editarUsuarioUsuarios (Usuario usuario) throws SQLException {
+        String sql = "UPDATE usuarios SET nombre = ?, email = ?, fecha_nacimiento = ?, contraseña = SHA1(?) WHERE id_usuario = ?";
+        PreparedStatement statement = null;
+        statement = connection.prepareStatement(sql);
+
+        statement.setString(1, usuario.getNombre());
+        statement.setString(2, usuario.getEmail());
+        statement.setDate(3, usuario.getFecha_nacimiento());
+        statement.setString(4, usuario.getContraseña());
+        statement.setInt(5, usuario.getId_usuario());
 
         int affectedRows = statement.executeUpdate();
 
@@ -126,6 +157,17 @@ public class UsuarioDAO {
         statement.close();
 
         return usuario;
+    }
+
+    public boolean delete (int usuarioId) throws SQLException {
+        String sql = "DELETE FROM usuarios WHERE id_usuario = ? ";
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, usuarioId);
+        int affectedRows = statement.executeUpdate();
+
+        return affectedRows != 0;
+
     }
 
 }
