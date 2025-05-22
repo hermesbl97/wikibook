@@ -35,7 +35,7 @@
                     200: function(response) {
                         console.log("Respuesta del servidor:", response);
                         if (response === "OK") {
-                            window.location.href = "/wikibook/usuarios.jsp";
+                            window.location.href = "/wikibook/detail_usuario.jsp?id_usuario=<%=usuario.getId_usuario()%>";
                         } else {
                             $("#result").html("<div class='alert alert-danger' role='alert'>" + response + "</div>");
                         }

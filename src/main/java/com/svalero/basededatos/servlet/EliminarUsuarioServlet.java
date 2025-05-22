@@ -3,6 +3,7 @@ package com.svalero.basededatos.servlet;
 import com.svalero.basededatos.dao.LibrosDAO;
 import com.svalero.basededatos.dao.UsuarioDAO;
 import com.svalero.basededatos.database.Database;
+import com.svalero.basededatos.model.Usuario;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,20 +22,25 @@ public class EliminarUsuarioServlet extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
 
             HttpSession currentSession = request.getSession();
-            if ((currentSession.getAttribute("rol") == null) || (!currentSession.getAttribute("rol").equals("admin"))) { //se prohibe el acceso a la gente que no haya iniciado sesión
+            if ((currentSession.getAttribute("rol") == null)) { //se prohibe el acceso a la gente que no haya iniciado sesión
                 response.sendRedirect("/wikibook/login.jsp"); //si no tiene iniciada a sesión lo redirigimos al login
                 return; //el return lo ponemos porque sino continua el proceso y borra el juego
             }
 
             String usuarioId = request.getParameter("id_usuario");
-
             try {
                 Database database = new Database();
                 database.connect();
                 UsuarioDAO usuarioDAO = new UsuarioDAO(database.getConnection());
+                Usuario usuario = usuarioDAO.getUsuario(Integer.parseInt(usuarioId));
                 usuarioDAO.delete(Integer.parseInt(usuarioId)); //borramos usuario por id
 
-                response.sendRedirect("/wikibook/usuarios.jsp"); //después del borrado lo redirigimos a la página principal
+                if (usuario.getRol().equals("admin")) {
+                    response.sendRedirect("/wikibook/usuarios.jsp"); //después del borrado lo redirigimos a la página principal
+                } else if (usuario.getRol().equals("user")) {
+                    response.sendRedirect("/wikibook/");
+                }
+
             } catch (SQLException sqle) {
                 sqle.printStackTrace();
             } catch (ClassNotFoundException cnfe) {

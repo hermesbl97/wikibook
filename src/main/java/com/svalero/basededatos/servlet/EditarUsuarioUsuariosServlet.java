@@ -39,7 +39,6 @@ public class EditarUsuarioUsuariosServlet extends HttpServlet {
 
         int idUsuario = Integer.parseInt(request.getParameter("id_usuario"));
         String nombre = request.getParameter("nombre");
-        String contraseña = request.getParameter("password");
         String email = request.getParameter("email");
         Date fecha_nacimiento = Date.valueOf(request.getParameter("fecha_nacimiento"));
 
@@ -50,9 +49,16 @@ public class EditarUsuarioUsuariosServlet extends HttpServlet {
             Usuario usuario = new Usuario();
             usuario.setId_usuario(idUsuario);
             usuario.setNombre(nombre);
-            usuario.setContraseña(contraseña);
             usuario.setEmail(email);
             usuario.setFecha_nacimiento(fecha_nacimiento);
+
+            String contraseña = request.getParameter("password");
+            if ((contraseña.isEmpty()) || (contraseña==null)){
+                usuario.setContraseña(null); //No la actualizamos
+            } else {
+                usuario.setContraseña(contraseña); //si se rellena el campo, se actualiza
+            }
+
 
             boolean edited = usuarioDAO.editarUsuarioUsuarios(usuario);
             if (edited) {
@@ -81,9 +87,6 @@ public class EditarUsuarioUsuariosServlet extends HttpServlet {
 
         if (request.getParameter("nombre").isEmpty()){
             errors.add("El nombre no puede estar vacio");
-        }
-        if (request.getParameter("password").isEmpty()){
-           errors.add("La contraseña no puede estar vacía");
         }
         if (request.getParameter("email").isEmpty()){
            errors.add("El campo email no puede estar vacío");

@@ -119,19 +119,35 @@ public class UsuarioDAO {
     }
 
     public boolean editarUsuarioUsuarios (Usuario usuario) throws SQLException {
-        String sql = "UPDATE usuarios SET nombre = ?, email = ?, fecha_nacimiento = ?, contraseña = SHA1(?) WHERE id_usuario = ?";
-        PreparedStatement statement = null;
-        statement = connection.prepareStatement(sql);
+        if (usuario.getContraseña() != null && !usuario.getContraseña().isEmpty()) {
+            String sql = "UPDATE usuarios SET nombre = ?, email = ?, fecha_nacimiento = ?, contraseña = SHA1(?) WHERE id_usuario = ?";
+            PreparedStatement statement = null;
+            statement = connection.prepareStatement(sql);
 
-        statement.setString(1, usuario.getNombre());
-        statement.setString(2, usuario.getEmail());
-        statement.setDate(3, usuario.getFecha_nacimiento());
-        statement.setString(4, usuario.getContraseña());
-        statement.setInt(5, usuario.getId_usuario());
+            statement.setString(1, usuario.getNombre());
+            statement.setString(2, usuario.getEmail());
+            statement.setDate(3, usuario.getFecha_nacimiento());
+            statement.setString(4, usuario.getContraseña());
+            statement.setInt(5, usuario.getId_usuario());
 
-        int affectedRows = statement.executeUpdate();
+            int affectedRows = statement.executeUpdate();
 
-        return affectedRows != 0;
+            return affectedRows != 0;
+
+        } else {
+            String sql = "UPDATE usuarios SET nombre = ?, email = ?, fecha_nacimiento = ? WHERE id_usuario = ?";
+            PreparedStatement statement = null;
+            statement = connection.prepareStatement(sql);
+
+            statement.setString(1, usuario.getNombre());
+            statement.setString(2, usuario.getEmail());
+            statement.setDate(3, usuario.getFecha_nacimiento());
+            statement.setInt(4, usuario.getId_usuario());
+
+            int affectedRows = statement.executeUpdate();
+
+            return affectedRows != 0;
+        }
     }
 
     public Usuario getUsuario (int id_usuario) throws SQLException, UserNotFoundException {
