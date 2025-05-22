@@ -1,39 +1,28 @@
+<%@ page import="com.svalero.basededatos.dao.UsuarioDAO" %>
+<%@ page import="com.svalero.basededatos.model.Usuario" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java"%>
 
 <!doctype html>
-<html lang="en" data-bs-theme="auto">
+<html lang="es" data-bs-theme="auto">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.145.0">
+    <meta name="author" content="WikiBook Team">
+    <meta name="theme-color" content="#712cf9">
     <title>WikiBook</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Bootstrap CSS desde CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Bootstrap JS y dependencias desde CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <meta name="theme-color" content="#712cf9">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!--añadimos librería ajax-->
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
-
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
                 font-size: 3.5rem;
             }
         }
-
-
 
         .bi {
             vertical-align: -.125em;
@@ -50,6 +39,7 @@
             white-space: nowrap;
             -webkit-overflow-scrolling: touch;
         }
+
         .bd-mode-toggle .bi {
             width: 1em;
             height: 1em;
@@ -59,8 +49,8 @@
             display: block !important;
         }
     </style>
-
 </head>
+
 
 
 <body>
@@ -78,19 +68,32 @@
                 }
 
                 String search = request.getParameter("search");
+
             %>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="/wikibook" class="nav-link px-2 text-secondary">Home</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+                <%
+                    if (rol.equals("admin")) {
+                %>
+                <li><a href="usuarios.jsp" class="nav-link px-2 text-white">Usuarios</a></li>
+                <%
+                    }
+
+                    Integer id_usuario = (Integer) currentSession.getAttribute("id_usuario");
+                    if (rol.equals("user")) {
+                %>
+                <li><a href="detail_usuario.jsp?id_usuario=<%= id_usuario %>" class="nav-link px-2 text-white">Perfil</a></li>
+                <%
+                    }
+                %>
                 <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
                 <li><a href="#" class="nav-link px-2 text-white">About</a></li>
             </ul>
 
 
             <div class="text-end">
-                <button type="button" class="btn btn-outline-light me-2">Regístrate</button>
+                <a type="button" class="btn btn-outline-light" href="/wikibook/registro_usuarios.jsp">Regístrate</a>
                 <%
                     if (rol.equals("anonymous")) {
                 %>

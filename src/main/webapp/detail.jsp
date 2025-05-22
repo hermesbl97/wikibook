@@ -33,13 +33,13 @@
                         <%
                             if (rol.equals("user")) {
                         %>
-                        <a href="valorar_libro.jsp?id_liro=<%= libro.getId_libro()%>" type="button" class="btn btn-outline-warning">Valorar</a>
+                        <a href="valorar_libro.jsp?id_libro=<%= libro.getId_libro()%>" type="button" class="btn btn-outline-warning">Valorar</a>
                         <%
                             } else if (rol.equals("admin")) {
                         %>
                             <a href="editar_libro.jsp?id_libro=<%= libro.getId_libro()%>" type="button" class="btn btn-outline-info">Editar</a>
                             <a href="delete_libro?id_libro=<%= libro.getId_libro()%>" type="button"
-                               onclick="return confirm('¿Estás seguro de querer eliminar el juego?')"
+                               onclick="return confirm('¿Estás seguro de querer eliminar el libro?')"
                                class="btn btn-outline-danger">Eliminar</a>
                         <%
                             }
@@ -49,6 +49,7 @@
             </div>
         </div>
     </div>
+
 <%
     } catch (LibroNotFoundException lnfe) {
 %>

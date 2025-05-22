@@ -3,6 +3,7 @@ package com.svalero.basededatos.servlet;
 import com.svalero.basededatos.dao.UsuarioDAO;
 import com.svalero.basededatos.database.Database;
 import com.svalero.basededatos.exception.UserNotFoundException;
+import com.svalero.basededatos.model.Usuario;
 import lombok.Data;
 
 import javax.servlet.ServletException;
@@ -29,12 +30,15 @@ public class LoginServlet extends HttpServlet {
             Database database = new Database();
             database.connect();
             UsuarioDAO usuarioDAO = new UsuarioDAO(database.getConnection());
-            String rol =usuarioDAO.loginUsuario(nombre, contraseña);
 
             //creamos la sesión y redirigimos al usuario a la página home
+            Usuario usuario = usuarioDAO.loginUsuario(nombre,contraseña);
             HttpSession session = request.getSession(); //creamos una sesión
-            session.setAttribute("username", nombre);
-            session.setAttribute("rol", rol);
+            session.setAttribute("username", usuario.getNombre());
+            session.setAttribute("rol", usuario.getRol());
+            session.setAttribute("id_usuario", usuario.getId_usuario());
+            session.setAttribute("usuario", usuario);
+
             response.getWriter().print("OK");
 
         } catch (SQLException sqle) {

@@ -58,9 +58,9 @@ public class EditarLibroServlet extends HttpServlet {
             libro.setAutor(autor);
             libro.setFecha_publicacion(new Date(System.currentTimeMillis()));
 
-            //Procesa la imagen del juego
+            //Procesa la imagen del libro
+            String filename = "default.jpg";
             if (action.equals("Registrar")) {
-                String filename = "default.jpg";
                 if (imagen.getSize() != 0) {
                     filename = UUID.randomUUID() + ".jpg"; //con esto creamos un nombre de imagen aleatorio porque si dos personas suben una foto con un mismo nombre se sobreescribirían o chocarían entre ellas
                     //String imagePath = getServletContext().getAttribute("imagePath").toString();

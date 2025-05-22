@@ -1,3 +1,5 @@
+<%@ page import="com.svalero.basededatos.dao.UsuarioDAO" %>
+<%@ page import="com.svalero.basededatos.model.Usuario" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java"%>
 
 <!doctype html>
@@ -10,13 +12,13 @@
     <meta name="generator" content="Hugo 0.145.0">
     <title>WikiBook</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Bootstrap CSS desde CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap JS y dependencias desde CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 
@@ -78,12 +80,25 @@
                 }
 
                 String search = request.getParameter("search");
+
             %>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="/wikibook" class="nav-link px-2 text-secondary">Home</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Features</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+                <%
+                    if (rol.equals("admin")) {
+                %>
+                <li><a href="usuarios.jsp" class="nav-link px-2 text-white">Usuarios</a></li>
+                <%
+                    }
+
+                    Integer id_usuario = (Integer) currentSession.getAttribute("id_usuario");
+                    if (rol.equals("user")) {
+                %>
+                <li><a href="detail_usuario.jsp?id_usuario=<%= id_usuario %>" class="nav-link px-2 text-white">Perfil</a></li>
+                <%
+                    }
+                %>
                 <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
                 <li><a href="#" class="nav-link px-2 text-white">About</a></li>
             </ul>
@@ -94,7 +109,7 @@
             </form>
 
             <div class="text-end">
-                <button type="button" class="btn btn-outline-light me-2">Regístrate</button>
+                <a type="button" class="btn btn-outline-light me-2" href="/wikibook/registro_usuarios.jsp">Regístrate</a>
                 <%
                     if (rol.equals("anonymous")) {
                 %>

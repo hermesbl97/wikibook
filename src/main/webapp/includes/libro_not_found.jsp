@@ -1,1 +1,1 @@
-<h2>No se ha encontrado el libro</h2>
+<h2>El libro no se ha podido encontrar</h2>

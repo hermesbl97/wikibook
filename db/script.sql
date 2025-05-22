@@ -17,5 +17,16 @@ CREATE TABLE libros (
                         imagen varchar(250),
                         precio float default 0,
                         genero varchar (80),
-                        editorial varchar (80),
+                        editorial varchar (80)
+);
+
+CREATE TABLE resenas (
+                         id_resena INT AUTO_INCREMENT PRIMARY KEY,
+                         puntuacion FLOAT,
+                         opinion VARCHAR(500),
+                         apropiada BOOLEAN DEFAULT TRUE,
+                         id_usuario INT UNSIGNED NOT NULL,
+                         id_libro INT NOT NULL,
+                         FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE,
+                         FOREIGN KEY (id_libro) REFERENCES libros(id_libro) ON DELETE CASCADE
 );
