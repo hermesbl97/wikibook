@@ -4,6 +4,10 @@
 <%@ page import="com.svalero.basededatos.exception.LibroNotFoundException" %>
 <%@ page import="com.svalero.basededatos.util.CurrencyUtils" %>
 <%@ page import="com.svalero.basededatos.util.DateUtils" %>
+<%@ page import="com.svalero.basededatos.dao.ResenaDAO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.svalero.basededatos.model.Resena" %>
+<%@ page import="com.svalero.basededatos.exception.ResenaNotFoundException" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java"%>
 
 <%@include file="includes/header.jsp"%>
@@ -13,49 +17,64 @@
     Database database = new Database();
     database.connect();
     LibrosDAO librosDAO = new LibrosDAO(database.getConnection());
+    ResenaDAO resenaDAO = new ResenaDAO(database.getConnection());
+
     try {
         Libro libro = librosDAO.get(libroId);
+        List<Resena> resenaList = resenaDAO.getResenaLibro(libroId);
+
 %>
-    <div class="container d-flex justify-content-center">
-        <div class="card mb-3" style="max-width: 700px;">
-            <div class="row g-0">
-                <div class="col-md-4 d-flex align-items-center justify-content-center">
-                    <img src="../wikibook_images/<%= libro.getImagen()%>" class="img-fluid rounded-start" style="width: 100%; height: 70%;" alt="no hay imagen disponible"> <!-- Carpeta anterior y luego vamos a la de Wikibook images -->
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title"><%= libro.getTitulo()%></h5>
-                        <p class="card-text">Autor: <%= libro.getAutor()%></p>
-                        <p class="card-text">Género: <%= libro.getGenero()%></p>
-                        <p class="card-text">Editorial: <%= libro.getEditorial()%></p>
-                        <p class="card-text"><small class="text-body-secondary">Publicado el <%= DateUtils.format(libro.getFecha_publicacion())%></small></p>
-                        <p class="card-text"><small class="text-body-secondary">Disponible a partir de <%= CurrencyUtils.format(libro.getPrecio())%> </small></p>
-                        <%
-                            if (rol.equals("user")) {
-                        %>
-                        <a href="valorar_libro.jsp?id_libro=<%= libro.getId_libro()%>" type="button" class="btn btn-outline-warning">Valorar</a>
-                        <%
-                            } else if (rol.equals("admin")) {
-                        %>
-                            <a href="editar_libro.jsp?id_libro=<%= libro.getId_libro()%>" type="button" class="btn btn-outline-info">Editar</a>
-                            <a href="delete_libro?id_libro=<%= libro.getId_libro()%>" type="button"
-                               onclick="return confirm('¿Estás seguro de querer eliminar el libro?')"
-                               class="btn btn-outline-danger">Eliminar</a>
-                        <%
-                            }
-                        %>
-                    </div>
+
+<!-- Mostrar detalles del libro -->
+<div class="container d-flex justify-content-center">
+    <div class="card mb-3" style="max-width: 700px;">
+        <div class="row g-0">
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                <img src="../wikibook_images/<%= libro.getImagen()%>" class="img-fluid rounded-start" style="width: 100%; height: 70%;" alt="no hay imagen disponible">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title"><%= libro.getTitulo()%></h5>
+                    <p class="card-text">Autor: <%= libro.getAutor()%></p>
+                    <p class="card-text">Género: <%= libro.getGenero()%></p>
+                    <p class="card-text">Editorial: <%= libro.getEditorial()%></p>
+                    <p class="card-text"><small class="text-body-secondary">Publicado el <%= DateUtils.format(libro.getFecha_publicacion())%></small></p>
+                    <p class="card-text"><small class="text-body-secondary">Disponible a partir de <%= CurrencyUtils.format(libro.getPrecio())%></small></p>
+                    <%
+                        if (rol.equals("user")) {
+                    %>
+                    <a href="valorar_libro.jsp?id_libro=<%= libro.getId_libro()%>" class="btn btn-outline-warning">Valorar</a>
+                    <%
+                    } else if (rol.equals("admin")) {
+                    %>
+                    <a href="editar_libro.jsp?id_libro=<%= libro.getId_libro()%>" class="btn btn-outline-info">Editar</a>
+                    <a href="delete_libro?id_libro=<%= libro.getId_libro()%>" onclick="return confirm('¿Estás seguro de querer eliminar el libro?')" class="btn btn-outline-danger">Eliminar</a>
+                    <%
+                        }
+                    %>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
+<!-- Mostrar reseñas -->
 <%
-    } catch (LibroNotFoundException lnfe) {
+    for (Resena resena : resenaList) {
 %>
-    <%@include file="includes/libro_not_found.jsp"%>
+<div class="card w-75 mb-3">
+    <div class="card-body">
+        <h5 class="card-title"><%= resena.getNombre()%> <small><%= resena.getPuntuacion() %>/5</small> <i class="bi bi-star-fill" style="color: gold;"></i></h5>
+        <p class="card-text"><%= resena.getOpinion() %></p>
+    </div>
+</div>
 <%
     }
+
+} catch (LibroNotFoundException lnfe) {
+%>
+<%@include file="includes/libro_not_found.jsp"%>
+<%
+}
 %>
 <%@include file="includes/footer.jsp"%>
-

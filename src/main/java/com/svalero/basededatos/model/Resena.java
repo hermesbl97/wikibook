@@ -11,7 +11,5 @@ public class Resena {
     private String opinion;
     private int id_libro;
     private int id_usuario;
-    private Float precio;
-    private String genero;
-    private String editorial;
+    private String nombre;
 }
