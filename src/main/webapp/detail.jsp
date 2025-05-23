@@ -26,50 +26,56 @@
 %>
 
 <!-- Mostrar detalles del libro -->
-<div class="container d-flex justify-content-center">
-    <div class="card mb-3" style="max-width: 700px;">
-        <div class="row g-0">
-            <div class="col-md-4 d-flex align-items-center justify-content-center">
-                <img src="../wikibook_images/<%= libro.getImagen()%>" class="img-fluid rounded-start" style="width: 100%; height: 70%;" alt="no hay imagen disponible">
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title"><%= libro.getTitulo()%></h5>
-                    <p class="card-text">Autor: <%= libro.getAutor()%></p>
-                    <p class="card-text">Género: <%= libro.getGenero()%></p>
-                    <p class="card-text">Editorial: <%= libro.getEditorial()%></p>
-                    <p class="card-text"><small class="text-body-secondary">Publicado el <%= DateUtils.format(libro.getFecha_publicacion())%></small></p>
-                    <p class="card-text"><small class="text-body-secondary">Disponible a partir de <%= CurrencyUtils.format(libro.getPrecio())%></small></p>
-                    <%
-                        if (rol.equals("user")) {
-                    %>
-                    <a href="valorar_libro.jsp?id_libro=<%= libro.getId_libro()%>" class="btn btn-outline-warning">Valorar</a>
-                    <%
-                    } else if (rol.equals("admin")) {
-                    %>
-                    <a href="editar_libro.jsp?id_libro=<%= libro.getId_libro()%>" class="btn btn-outline-info">Editar</a>
-                    <a href="delete_libro?id_libro=<%= libro.getId_libro()%>" onclick="return confirm('¿Estás seguro de querer eliminar el libro?')" class="btn btn-outline-danger">Eliminar</a>
-                    <%
-                        }
-                    %>
+<div class="mt-4">
+    <div class="container d-flex justify-content-center">
+        <div class="card w-50 mb-3 mx-auto" style="width: 700px;">
+            <div class="row g-0">
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
+                    <img src="../wikibook_images/<%= libro.getImagen()%>" class="img-fluid rounded-start" style="width: 100%; height: 70%;" alt="no hay imagen disponible">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= libro.getTitulo()%></h5>
+                        <p class="card-text">Autor: <%= libro.getAutor()%></p>
+                        <p class="card-text">Género: <%= libro.getGenero()%></p>
+                        <p class="card-text">Editorial: <%= libro.getEditorial()%></p>
+                        <p class="card-text"><small class="text-body-secondary">Publicado el <%= DateUtils.format(libro.getFecha_publicacion())%></small></p>
+                        <p class="card-text"><small class="text-body-secondary">Disponible a partir de <%= CurrencyUtils.format(libro.getPrecio())%></small></p>
+                        <%
+                            if (rol.equals("user")) {
+                        %>
+                        <a href="valorar_libro.jsp?id_libro=<%= libro.getId_libro()%>" class="btn btn-outline-warning">Valorar</a>
+                        <%
+                        } else if (rol.equals("admin")) {
+                        %>
+                        <a href="editar_libro.jsp?id_libro=<%= libro.getId_libro()%>" class="btn btn-outline-info">Editar</a>
+                        <a href="delete_libro?id_libro=<%= libro.getId_libro()%>" onclick="return confirm('¿Estás seguro de querer eliminar el libro?')" class="btn btn-outline-danger">Eliminar</a>
+                        <%
+                            }
+                        %>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Mostrar reseñas -->
-<%
-    for (Resena resena : resenaList) {
-%>
-<div class="card w-75 mb-3">
-    <div class="card-body">
-        <h5 class="card-title"><%= resena.getNombre()%> <small><%= resena.getPuntuacion() %>/5</small> <i class="bi bi-star-fill" style="color: gold;"></i></h5>
-        <p class="card-text"><%= resena.getOpinion() %></p>
+    <div class="mt-4">
+        <h3 class="text-center mt-4 mb-3"><i>Valoraciones del libro</i></h3>
+
+        <!-- Mostrar reseñas -->
+        <%
+            for (Resena resena : resenaList) {
+        %>
+        <div class="card w-50 mb-3 mx-auto" style="width: 700px;">
+            <div class="card-body">
+                <h5 class="card-title"><%= resena.getNombre()%> <small><%= resena.getPuntuacion() %>/5</small> <i class="bi bi-star-fill" style="color: gold;"></i></h5>
+                <p class="card-text"><%= resena.getOpinion() %></p>
+            </div>
+        </div>
     </div>
 </div>
-<%
-    }
+    <%
+        }
 
 } catch (LibroNotFoundException lnfe) {
 %>
