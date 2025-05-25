@@ -42,6 +42,12 @@
                         <p class="card-text"><small class="text-body-secondary">Publicado el <%= DateUtils.format(libro.getFecha_publicacion())%></small></p>
                         <p class="card-text"><small class="text-body-secondary">Disponible a partir de <%= CurrencyUtils.format(libro.getPrecio())%></small></p>
                         <%
+                            if (rol.equals("user")) {
+                        %>
+                        <a href="valorar_libro.jsp?id_libro=<%= libro.getId_libro()%>" type="button" class="btn btn-outline-warning">Valorar</a>
+                        <%
+                        }
+
                         if (rol.equals("admin")) {
                         %>
                         <a href="editar_libro.jsp?id_libro=<%= libro.getId_libro()%>" class="btn btn-info">Editar</a>
