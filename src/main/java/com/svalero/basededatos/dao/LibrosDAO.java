@@ -140,4 +140,22 @@
 
         }
 
+        public float obtenerMediaValoraciones(int idLibro) {
+            float media = 0;
+            String query = "SELECT AVG(puntuacion) FROM resenas WHERE id_libro = ?";
+
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, idLibro);
+                ResultSet resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    media = resultSet.getFloat(1);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return media;
+        }
+
+
     }
