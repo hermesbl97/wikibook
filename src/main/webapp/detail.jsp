@@ -42,14 +42,10 @@
                         <p class="card-text"><small class="text-body-secondary">Publicado el <%= DateUtils.format(libro.getFecha_publicacion())%></small></p>
                         <p class="card-text"><small class="text-body-secondary">Disponible a partir de <%= CurrencyUtils.format(libro.getPrecio())%></small></p>
                         <%
-                            if (rol.equals("user")) {
+                        if (rol.equals("admin")) {
                         %>
-                        <a href="valorar_libro.jsp?id_libro=<%= libro.getId_libro()%>" class="btn btn-outline-warning">Valorar</a>
-                        <%
-                        } else if (rol.equals("admin")) {
-                        %>
-                        <a href="editar_libro.jsp?id_libro=<%= libro.getId_libro()%>" class="btn btn-outline-info">Editar</a>
-                        <a href="delete_libro?id_libro=<%= libro.getId_libro()%>" onclick="return confirm('¿Estás seguro de querer eliminar el libro?')" class="btn btn-outline-danger">Eliminar</a>
+                        <a href="editar_libro.jsp?id_libro=<%= libro.getId_libro()%>" class="btn btn-info">Editar</a>
+                        <a href="delete_libro?id_libro=<%= libro.getId_libro()%>" onclick="return confirm('¿Estás seguro de querer eliminar el libro?')" class="btn btn-danger">Eliminar</a>
                         <%
                             }
                         %>
@@ -70,6 +66,19 @@
             <div class="card-body">
                 <h5 class="card-title"><%= resena.getNombre()%> <small><%= resena.getPuntuacion() %>/5</small> <i class="bi bi-star-fill" style="color: gold;"></i></h5>
                 <p class="card-text"><%= resena.getOpinion() %></p>
+                <div class="text-end mt-3">
+                    <%
+                        if (!rol.equals("anonymous")){
+                    %>
+                    <a href="detail_resena.jsp?id_resena=<%= resena.getId_resena()%>" type="button"
+                       class="btn btn-success">Ver detalle</a>
+                    <a href="eliminar_resena?id_resena=<%= resena.getId_resena()%>" type="button"
+                       onclick="return confirm('¿Estás seguro de querer eliminarla?')"
+                       class="btn btn-danger">Borrar</a>
+                    <%
+                        }
+                    %>
+                </div>
             </div>
         </div>
     </div>
