@@ -39,7 +39,13 @@
                     <div class="fw-bold"><a href="detail.jsp?id_libro=<%=libro.getId_libro()%>" class="link-success link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"><%= libro.getTitulo()%> </a> (<%=libro.getAutor()%>)</div>
                     <%= libro.getGenero()%>
                 </div>
-                <span class="badge text-bg-primary rounded-pill">14</span>
+                <%
+                    float mediaValoracion = librosDAO.obtenerMediaValoraciones(libro.getId_libro());
+                %>
+                <span class="badge text-bg-primary rounded-pill">
+                <%= (mediaValoracion > 0) ? String.format("%.1f", mediaValoracion) : "?" %> <!--Si no hay media mostrará un interrogante -->
+                    <i class="bi bi-star-fill" style="color: white;"</i>
+                </span>
             </li>
             <%
                 }

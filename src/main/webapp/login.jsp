@@ -10,13 +10,10 @@
     <meta name="generator" content="Hugo 0.145.0">
     <title>WikiBook</title>
 
-    <!-- Bootstrap CSS desde CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap JS desde CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 
-    <!-- Bootstrap Icons desde CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
     <style>
@@ -148,7 +145,7 @@
                 <input class="btn btn-warning w-100 py-2" type="submit" value="Iniciar sesión">
             </div>
             <div class="mb-2">
-                ¿No tienes una cuenta? <a href="register.jsp" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Regístrate</a></p>
+                ¿No tienes una cuenta? <a href="/wikibook/registro_usuarios.jsp" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Regístrate</a></p>
             </div>
             <div class="mb-2" id="result"></div>
         </form>
