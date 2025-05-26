@@ -98,9 +98,12 @@
                 <li><a href="detail_usuario.jsp?id_usuario=<%= id_usuario %>" class="nav-link px-2 text-white">Perfil</a></li>
                 <%
                     }
+                    if (!rol.equals("anonymous")){
                 %>
-                <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+                <li><a href="concurso.jsp" class="nav-link px-2 text-white">Concurso</a></li>
+                <%
+                    }
+                %>
             </ul>
 
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="get" action="<%= request.getRequestURI()%>">

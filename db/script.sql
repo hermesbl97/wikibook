@@ -30,3 +30,13 @@ CREATE TABLE resenas (
                          FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE,
                          FOREIGN KEY (id_libro) REFERENCES libros(id_libro) ON DELETE CASCADE
 );
+
+CREATE TABLE poemas (
+                        id_poema INT AUTO_INCREMENT PRIMARY KEY,
+                        titulo VARCHAR(250),
+                        contenido TEXT,
+                        fecha_envio DATE,
+                        aceptado BOOLEAN DEFAULT TRUE,
+                        id_usuario INT UNSIGNED NOT NULL,
+                        FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
+);
