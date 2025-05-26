@@ -44,7 +44,7 @@
                 %>
                 <span class="badge text-bg-primary rounded-pill">
                 <%= (mediaValoracion > 0) ? String.format("%.1f", mediaValoracion) : "?" %> <!--Si no hay media mostrará un interrogante -->
-                    <i class="bi bi-star-fill" style="color: white;"</i>
+                    <i class="bi bi-star-fill" style="color: white;"></i>
                 </span>
             </li>
             <%

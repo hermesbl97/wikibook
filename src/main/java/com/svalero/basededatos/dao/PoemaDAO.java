@@ -1,0 +1,78 @@
+package com.svalero.basededatos.dao;
+
+import com.svalero.basededatos.exception.PoemaNotFoundException;
+import com.svalero.basededatos.exception.ResenaNotFoundException;
+import com.svalero.basededatos.model.Libro;
+import com.svalero.basededatos.model.Poema;
+import com.svalero.basededatos.model.Resena;
+import com.svalero.basededatos.model.Usuario;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+public class PoemaDAO {
+    private Connection connection;
+
+    public PoemaDAO(Connection connection) {
+        this.connection = connection;
+    }
+
+    public boolean add(Poema poema) throws SQLException {
+        String sql = "INSERT INTO poemas (titulo, contenido, fecha_envio, aceptado, id_usuario) " +
+                "VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement statement = null;
+
+        statement = connection.prepareStatement(sql);
+        statement.setString(1, poema.getTitulo());
+        statement.setString(2, poema.getContenido());
+        statement.setDate(3, poema.getFecha_envio());
+        statement.setBoolean(4, poema.isAceptado());
+        statement.setInt(5, poema.getId_usuario());
+        ;
+
+        int affectedRows = statement.executeUpdate();
+
+        return affectedRows != 0;
+    }
+
+    public ArrayList<Poema> getPoemaList() throws SQLException, PoemaNotFoundException {
+        ArrayList<Poema> poemas = new ArrayList<>();
+        String sql = "SELECT po.*, us.nombre FROM poemas po " +
+                "JOIN usuarios us ON po.id_usuario = us.id_usuario";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet result = statement.executeQuery();
+
+        if (!result.next()){
+            throw new PoemaNotFoundException();
+        }
+
+        while (result.next()) {
+            Poema poema = new Poema();
+            poema.setId_poema(result.getInt("id_poema"));
+            poema.setTitulo(result.getString("titulo"));
+            poema.setContenido(result.getString("contenido"));
+            poema.setFecha_envio(result.getDate("fecha_envio"));
+            poema.setAceptado(result.getBoolean("aceptado"));
+            poema.setId_usuario(result.getInt("id_usuario"));
+            poema.setNombre(result.getString("nombre"));
+            poemas.add(poema);
+        }
+
+        statement.close();
+        return poemas;
+    }
+
+    public boolean deletePoema (int poemaId) throws SQLException {
+        String sql = "DELETE FROM poemas WHERE id_poema = ? ";
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, poemaId);
+        int affectedRows = statement.executeUpdate();
+
+        return affectedRows != 0;
+
+    }
+}
