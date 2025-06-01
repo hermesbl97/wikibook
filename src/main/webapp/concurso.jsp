@@ -4,6 +4,7 @@
 <%@ page import="com.svalero.basededatos.util.DateUtils" %>
 <%@ page import="com.svalero.basededatos.exception.PoemaNotFoundException" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java"%>
 
 <%@include file="includes/header_index.jsp"%>
@@ -44,12 +45,12 @@
         <!-- Meter lista de poemas si eres admin-->
         <%
             if (rol.equals("admin")){
-                Database database = new Database();
-                database.connect();
-                PoemaDAO poemaDAO = new PoemaDAO(database.getConnection());
-
                 try {
-                    ArrayList<Poema> poemaList = poemaDAO.getPoemaList();
+                    Database database = new Database();
+                    database.connect();
+                    PoemaDAO poemaDAO = new PoemaDAO(database.getConnection());
+
+                    List<Poema> poemaList = poemaDAO.getAll(search);
                     for (Poema poema: poemaList) {
 
         %>

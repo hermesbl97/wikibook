@@ -38,18 +38,61 @@ public class PoemaDAO {
         return affectedRows != 0;
     }
 
-    public ArrayList<Poema> getPoemaList() throws SQLException, PoemaNotFoundException {
-        ArrayList<Poema> poemas = new ArrayList<>();
-        String sql = "SELECT po.*, us.nombre FROM poemas po " +
-                "JOIN usuarios us ON po.id_usuario = us.id_usuario";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        ResultSet result = statement.executeQuery();
+//    public ArrayList<Poema> getPoemaList() throws SQLException, PoemaNotFoundException {
+//        ArrayList<Poema> poemas = new ArrayList<>();
+//        String sql = "SELECT po.*, us.nombre FROM poemas po " +
+//                "JOIN usuarios us ON po.id_usuario = us.id_usuario";
+//        PreparedStatement statement = connection.prepareStatement(sql);
+//        ResultSet result = statement.executeQuery();
+//
+//        if (!result.next()){
+//            throw new PoemaNotFoundException();
+//        }
+//
+//        while (result.next()) {
+//            Poema poema = new Poema();
+//            poema.setId_poema(result.getInt("id_poema"));
+//            poema.setTitulo(result.getString("titulo"));
+//            poema.setContenido(result.getString("contenido"));
+//            poema.setFecha_envio(result.getDate("fecha_envio"));
+//            poema.setAceptado(result.getBoolean("aceptado"));
+//            poema.setId_usuario(result.getInt("id_usuario"));
+//            poema.setNombre(result.getString("nombre"));
+//            poemas.add(poema);
+//        }
+//
+//        statement.close();
+//        return poemas;
+//    }
 
-        if (!result.next()){
-            throw new PoemaNotFoundException();
+    public ArrayList<Poema> getAll() throws SQLException, PoemaNotFoundException {
+        String sql = "SELECT po.*, us.nombre FROM poemas po " +
+                "INNER JOIN usuarios us ON po.id_usuario = us.id_usuario";
+        return launchQuery(sql);
+    }
+
+    public ArrayList<Poema> getAll(String search) throws SQLException, PoemaNotFoundException {
+        if (search==null || search.isEmpty()) {
+            return getAll();
         }
 
-        while (result.next()) {
+        String sql = "SELECT po.*, us.nombre FROM poemas po " +
+                "INNER JOIN usuarios us ON po.id_usuario = us.id_usuario " +
+                "WHERE po.titulo LIKE ? OR nombre LIKE ?";
+        return launchQuery(sql, search);
+    }
+
+    private ArrayList<Poema> launchQuery(String query, String ...search) throws SQLException, PoemaNotFoundException {
+        PreparedStatement statement = connection.prepareStatement(query);
+        if (search.length > 0) {
+            statement.setString(1, "%"+search[0]+"%");
+            statement.setString(2, "%"+search[0]+"%");
+        }
+
+        ResultSet result = statement.executeQuery();
+        ArrayList<Poema> poemaList = new ArrayList<>();
+
+        while (result.next()){
             Poema poema = new Poema();
             poema.setId_poema(result.getInt("id_poema"));
             poema.setTitulo(result.getString("titulo"));
@@ -58,11 +101,15 @@ public class PoemaDAO {
             poema.setAceptado(result.getBoolean("aceptado"));
             poema.setId_usuario(result.getInt("id_usuario"));
             poema.setNombre(result.getString("nombre"));
-            poemas.add(poema);
+            poemaList.add(poema);
         }
 
         statement.close();
-        return poemas;
+        if (poemaList.isEmpty()) {
+            throw new PoemaNotFoundException();
+        }
+
+        return poemaList;
     }
 
     public boolean deletePoema (int poemaId) throws SQLException {
