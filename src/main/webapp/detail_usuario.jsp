@@ -1,8 +1,4 @@
 <%@ page import="com.svalero.basededatos.database.Database" %>
-<%@ page import="com.svalero.basededatos.dao.LibrosDAO" %>
-<%@ page import="com.svalero.basededatos.model.Libro" %>
-<%@ page import="com.svalero.basededatos.exception.LibroNotFoundException" %>
-<%@ page import="com.svalero.basededatos.util.CurrencyUtils" %>
 <%@ page import="com.svalero.basededatos.util.DateUtils" %>
 <%@ page import="com.svalero.basededatos.exception.UserNotFoundException" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java"%>

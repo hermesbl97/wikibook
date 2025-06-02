@@ -23,7 +23,7 @@ public class EliminarLibroServlet extends HttpServlet {
         HttpSession currentSession = request.getSession();
         if ((currentSession.getAttribute("rol") == null) || (!currentSession.getAttribute("rol").equals("admin"))) { //se prohibe el acceso a la gente que no haya iniciado sesión
             response.sendRedirect("/wikibook/login.jsp"); //si no tiene iniciada a sesión lo redirigimos al login
-            return; //el return lo ponemos porque sino continua el proceso y borra el juego
+            return; //el return lo ponemos porque sino continua el proceso y borra el libro
         }
 
         String libroId = request.getParameter("id_libro");

@@ -51,30 +51,30 @@ public class ResenaDAO {
         return resenas;
     }
 
-    public Resena getResena (int id_resena) throws SQLException, ResenaNotFoundException {
-        String sql = "SELECT * FROM resenas WHERE id_resena = ?";
-        PreparedStatement statement = null;
-        ResultSet result = null;
-
-        statement = connection.prepareStatement(sql);
-        statement.setInt(1, id_resena);
-        result = statement.executeQuery();
-
-        if (!result.next()){
-            throw new ResenaNotFoundException();
-        }
-
-        Resena resena = new Resena();
-        resena.setId_resena(result.getInt("id_resena"));
-        resena.setOpinion(result.getString("opinion"));
-        resena.setPuntuacion(result.getFloat("puntuacion"));
-        resena.setNombre(result.getString("nombre"));
-        resena.setApropiada(result.getBoolean("apropiada"));
-
-        statement.close();
-
-        return resena;
-    }
+//    public Resena getResena (int id_resena) throws SQLException, ResenaNotFoundException {
+//        String sql = "SELECT * FROM resenas WHERE id_resena = ?";
+//        PreparedStatement statement = null;
+//        ResultSet result = null;
+//
+//        statement = connection.prepareStatement(sql);
+//        statement.setInt(1, id_resena);
+//        result = statement.executeQuery();
+//
+//        if (!result.next()){
+//            throw new ResenaNotFoundException();
+//        }
+//
+//        Resena resena = new Resena();
+//        resena.setId_resena(result.getInt("id_resena"));
+//        resena.setOpinion(result.getString("opinion"));
+//        resena.setPuntuacion(result.getFloat("puntuacion"));
+//        resena.setNombre(result.getString("nombre"));
+//        resena.setApropiada(result.getBoolean("apropiada"));
+//
+//        statement.close();
+//
+//        return resena;
+//    }
 
     public Resena getResenaUsuario (int id_resena) throws SQLException, ResenaNotFoundException {
         String sql = "SELECT re.*, us.nombre AS nombre FROM resenas re " +

@@ -42,12 +42,7 @@ public class NuevaResenaServlet extends HttpServlet {
             database.connect();
             ResenaDAO resenaDAO = new ResenaDAO(database.getConnection());
 
-
-
             resenaDAO.add(resena);
-
-
-
 
             response.getWriter().write("OK");
 

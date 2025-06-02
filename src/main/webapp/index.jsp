@@ -8,9 +8,7 @@
 
     <main>
         <div>
-            <p> ¿Eres un fanático de nuestros libros? Aquí encontrarás toda la información de tus libros favoritos.
-                Valóralos y deja tu opinión para ayudar a otros usuarios
-            </p>
+        <h2>Listado de libros</h2>
         </div>
         <%
             if (rol.equals("admin")){

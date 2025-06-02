@@ -1,6 +1,4 @@
 <%@ page import="com.svalero.basededatos.database.Database" %>
-<%@ page import="com.svalero.basededatos.util.DateUtils" %>
-<%@ page import="com.svalero.basededatos.exception.UserNotFoundException" %>
 <%@ page import="com.svalero.basededatos.dao.ResenaDAO" %>
 <%@ page import="com.svalero.basededatos.model.Resena" %>
 <%@ page import="com.svalero.basededatos.exception.ResenaNotFoundException" %>
