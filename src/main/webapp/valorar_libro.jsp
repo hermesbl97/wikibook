@@ -1,10 +1,5 @@
-    <%@ page import="com.svalero.basededatos.model.Resena" %>
     <%@ page import="com.svalero.basededatos.database.Database" %>
-    <%@ page import="com.svalero.basededatos.dao.LibrosDAO" %>
-    <%@ page import="com.svalero.basededatos.model.Libro" %>
-    <%@ page import="com.svalero.basededatos.dao.ResenaDAO" %>
     <%@ page contentType="text/html; charset=UTF-8" language="java"%>
-
     <%@include file="includes/header.jsp"%>
 
 

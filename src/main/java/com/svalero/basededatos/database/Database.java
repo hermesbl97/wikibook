@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class Database {
     private Connection connection;
 
-    public void connect () throws ClassNotFoundException, SQLException {  //con el throw lanzamos las excepciones
+    public void connect () throws ClassNotFoundException, SQLException {
         Class.forName("org.mariadb.jdbc.Driver");
         connection = DriverManager.getConnection(
                 "jdbc:mariadb://localhost:3306/wikibook",

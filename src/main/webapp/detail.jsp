@@ -7,7 +7,6 @@
 <%@ page import="com.svalero.basededatos.dao.ResenaDAO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.svalero.basededatos.model.Resena" %>
-<%@ page import="com.svalero.basededatos.exception.ResenaNotFoundException" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java"%>
 
 <%@include file="includes/header.jsp"%>

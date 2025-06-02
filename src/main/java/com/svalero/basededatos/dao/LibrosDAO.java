@@ -110,12 +110,7 @@
             return libro;
         }
 
-        public ArrayList<Libro> search(String searchTerm) { //nos hará una búsqueda en función a un término que le pasemos
-            //TODO
-            return null;
-        }
-
-        public boolean modify (Libro libro) throws SQLException { //nos modificará un juego cuando le pasemos un id
+        public boolean modify (Libro libro) throws SQLException {
             String sql = "UPDATE libros SET titulo = ?, autor = ?, precio = ?, " +
                     "fecha_publicacion = ?, genero = ?, editorial = ? WHERE id_libro = ?";
             PreparedStatement statement = connection.prepareStatement(sql);

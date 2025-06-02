@@ -63,7 +63,6 @@ public class EditarLibroServlet extends HttpServlet {
             if (action.equals("Registrar")) {
                 if (imagen.getSize() != 0) {
                     filename = UUID.randomUUID() + ".jpg"; //con esto creamos un nombre de imagen aleatorio porque si dos personas suben una foto con un mismo nombre se sobreescribirían o chocarían entre ellas
-                    //String imagePath = getServletContext().getAttribute("imagePath").toString();
                     String imagePath = "C:\\Users\\Hermes\\Downloads\\apache-tomcat-9.0.102\\apache-tomcat-9.0.102\\webapps\\wikibook_images";
                     InputStream inputStream = imagen.getInputStream(); //representación de la foto en datos
                     Files.copy(inputStream, Path.of(imagePath + File.separator + filename)); //copiame el InputStream (la foto) a la ruta de la carpeta (imagePath), seguido de la barra separadora, y del nombre del fichero generado aleatoriamente

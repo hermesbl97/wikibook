@@ -22,9 +22,9 @@ public class EliminarUsuarioServlet extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
 
             HttpSession currentSession = request.getSession();
-            if ((currentSession.getAttribute("rol") == null)) { //se prohibe el acceso a la gente que no haya iniciado sesión
-                response.sendRedirect("/wikibook/login.jsp"); //si no tiene iniciada a sesión lo redirigimos al login
-                return; //el return lo ponemos porque sino continua el proceso y borra el juego
+            if ((currentSession.getAttribute("rol") == null)) {
+                response.sendRedirect("/wikibook/login.jsp");
+                return;
             }
 
             String usuarioId = request.getParameter("id_usuario");
@@ -33,10 +33,10 @@ public class EliminarUsuarioServlet extends HttpServlet {
                 database.connect();
                 UsuarioDAO usuarioDAO = new UsuarioDAO(database.getConnection());
                 Usuario usuario = usuarioDAO.getUsuario(Integer.parseInt(usuarioId));
-                usuarioDAO.delete(Integer.parseInt(usuarioId)); //borramos usuario por id
+                usuarioDAO.delete(Integer.parseInt(usuarioId));
 
                 if (usuario.getRol().equals("admin")) {
-                    response.sendRedirect("/wikibook/usuarios.jsp"); //después del borrado lo redirigimos a la página principal
+                    response.sendRedirect("/wikibook/usuarios.jsp");
                 } else if (usuario.getRol().equals("user")) {
                     response.sendRedirect("/wikibook/");
                 }

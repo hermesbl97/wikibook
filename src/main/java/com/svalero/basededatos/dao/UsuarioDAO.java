@@ -24,9 +24,9 @@ public class UsuarioDAO {
         statement.setString(2,contraseña);
         ResultSet result = statement.executeQuery();
 
-        if (!result.next()) { //Si la consulta no devuelve nada. Devolverá false
+        if (!result.next()) {
             throw new UserNotFoundException();
-        }  //si no encuentra al usuario lanzamos una exception así conseguimos lanzar en una misma función un booleano y un string si es cierto
+        }
 
         Usuario usuario = new Usuario();
         usuario.setId_usuario(result.getInt("id_usuario"));
@@ -40,13 +40,11 @@ public class UsuarioDAO {
     }
 
 
-    //Mostramos todos los usuarios sin campo de busqueda
     public ArrayList<Usuario> getUsuarios() throws SQLException, UserNotFoundException{
         String sql = "SELECT * FROM usuarios";
         return launchQuery(sql);
     }
 
-    //Mostramos todos los usuarios teniendo en cuenta el campo de busqueda
     public ArrayList<Usuario> getUsuarios(String search) throws SQLException, UserNotFoundException {
         String sql = "SELECT * FROM usuarios WHERE nombre LIKE ? OR rol LIKE ? OR email LIKE ?";
         if (search == null || search.isEmpty()) {
@@ -55,7 +53,6 @@ public class UsuarioDAO {
         return launchQuery(sql, search);
     }
 
-    //Mostramos todos los usuarios
     private ArrayList<Usuario> launchQuery(String sql, String ...search) throws SQLException {
         PreparedStatement statement = null;
         ResultSet result = null;
@@ -86,7 +83,6 @@ public class UsuarioDAO {
     }
 
 
-    //Añadimos un usuario
     public boolean añadirUsuario (Usuario usuario) throws SQLException {
         String sql = "INSERT INTO usuarios (nombre, contraseña, email, fecha_nacimiento, rol, activo) VALUES (?,SHA1(?),?,?,?,?)";
         PreparedStatement statement = null;

@@ -1,7 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java"%>
-<%@ page import="com.svalero.basededatos.model.Libro" %>
 <%@ page import="com.svalero.basededatos.database.Database" %>
-<%@ page import="com.svalero.basededatos.dao.LibrosDAO" %>
 <%@ page import="com.svalero.basededatos.exception.UserNotFoundException" %>
 <%@ page import="com.svalero.basededatos.model.Usuario" %>
 <%@ page import="com.svalero.basededatos.dao.UsuarioDAO" %>
